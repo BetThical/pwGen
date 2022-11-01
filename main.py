@@ -1,7 +1,47 @@
+import argparse
 import random
 import string
 
-chars=int(input("password chars: "))
+
+def main():
+
+    parser=argparse.ArgumentParser(
+            prog='passwordGenerator',
+            description='This program randomize a password with numbers, letters and symbols',
+            epilog='by BetThical'
+            )
+
+    parser.add_argument("characters")
+    args=parser.parse_args()
+
+
+    chars=int(args.characters)
+
+    proportionLetters = random.randrange(1,chars-3) #3 is a parameter to make impossible to gen a password with no numbers and symbols
+    proportionNums = random.randrange(1,chars-proportionLetters-3) #3 is a parameter to make impossible to gen a password with no symbols
+    proportionSymbols = chars-(proportionNums+proportionLetters)
+
+    
+    letterStr=letters(proportionLetters)
+    numStr=nums(proportionNums) 
+    symbStr=symbols(proportionSymbols)
+
+    string = letterStr + numStr + symbStr
+
+
+    pwList=[]
+
+    for i in string:
+        pwList.append(i)
+
+    random.shuffle(pwList)
+    password=""
+
+    for i in pwList:
+       password=password+i
+
+    return password
+
 
 def letters(x):
 
@@ -31,19 +71,19 @@ def nums(y):
 
     for i in n:
         numList.append(i)
-   
-    
+
+
     i=0
 
     while i<y:
         numStr=numStr + random.choice(numList)
         i=i+1
-    
+
     return numStr
 
 
 def symbols(z):
-    
+
     symbs=string.punctuation
     symbList=[]
     symbStr=""
@@ -62,37 +102,5 @@ def symbols(z):
 
 
 
-proportionLetters = random.randrange(1,chars-3) #3 is a parameter to make impossible to gen a password with no numbers and symbols
-
-print(proportionLetters)
-
-proportionNums = random.randrange(1,chars-proportionLetters-3) #3 is a parameter to make impossible to gen a password with no symbols
-
-print(proportionNums)
-
-proportionSymbols = chars-(proportionNums+proportionLetters)
-
-print(proportionSymbols)
-
-letterStr=letters(proportionLetters)
-numStr=nums(proportionNums) 
-symbStr=symbols(proportionSymbols)
-
-pw = letterStr + numStr + symbStr
-
-
-pwList=[]
-
-for i in pw:
-    pwList.append(i)
-
-random.shuffle(pwList)
-password=""
-
-for i in pwList:
-    password=password+i
-
-print(password)
-
-
+print(main())
 
